@@ -1,0 +1,30 @@
+{
+  "name": "donottrackme",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "An experimental Chrome extension that attempts to minimise the data websites collect from what should be anonymous browsing",
+  "homepage_url": "https://github.com/robertmaldon/donottrackme",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "scripts": ["jsUri.js", "background.js"],
+    "persistent": true
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "cookies",
+    "*://*.news.com.au/*",
+    "*://*.newyorker.com/*",
+    "*://*.nyt.com/*",
+    "*://*.nytimes.com/*",
+    "*://*.theguardian.co.uk/*",
+    "*://*.theguardian.com/*",
+    "*://*.smh.com.au/*",
+    "*://*.wired.com/*",
+    "*://*.wsj.com/*"
+  ]
+}
