@@ -50,12 +50,37 @@ chrome.webRequest.onBeforeRequest.addListener(
       // Strip any query parameters
       if (path != "") {
           uri.setQuery("");
-          return {redirectUrl: uri.toString()};        
+          return {redirectUrl: uri.toString()};
       }
+    } else if (endsWith(host, ".smh.com.au") && (path == "/api/comments/count")) {
+      // block requests like https://www.smh.com.au/api/comments/count?userID=ABC123
+      // as they look like tracking requests
+      return {cancel: true};
+    } else if (host == "api.ffx.io") {
+      if ((path == "/graphql") && (details.url.includes("PaywallRulesQuery"))) {
+        // block graphql requests for paywall rules like
+        // https://api.ffx.io/graphql?query=query%20PaywallRulesQuery(%20%24brand%3A...
+        // but let other content related graphql requests through
+        return {cancel: true};
+      } else if (path == "/api/comments/api/v1/auth") {
+        // possible way to track
+        return {cancel: true};
+      }
+    } else if (host == "l.ffx.io" || host == "i.ffx.io") {
+      // block requests to l.ffx.io, which seem to report errors related to
+      // api.ffx.io request failures
+      //
+      // block requests to i.ffx.io, which seems to be analytics
+      return {cancel: true};
     }
   },
-  {urls: ["*://*.newyorker.com/*",
-          "*://*.nytimes.com/*"]},
+  { urls: [
+      "*://*.newyorker.com/*",
+      "*://*.nytimes.com/*",
+      "*://*.smh.com.au/*",
+      "*://*.ffx.io/*"
+    ]
+  },
   ["blocking"]
 );
 
@@ -92,14 +117,21 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
 
     // Return modified headers
     return {requestHeaders: details.requestHeaders};
-  }, 
-  { urls: ["*://*.news.com.au/*",
-           "*://*.newyorker.com/*",
-           "*://*.nyt.com/*",
-           "*://*.theguardian.co.uk/*",
-           "*://*.theguardian.com/*",
-           "*://*.smh.com.au/*",
-           "*://*.wired.com/*",
-           "*://*.wsj.com/*"] },
+  }, {
+    urls: [
+      "*://hbr.org/*",
+      "*://*.hbr.org/*",
+      "*://*.news.com.au/*",
+      "*://*.newyorker.com/*",
+      "*://*.nyt.com/*",
+      "*://*.theguardian.co.uk/*",
+      "*://*.theguardian.com/*",
+      "*://*.smh.com.au/*",
+      "*://*.wired.com/*",
+      "*://*.wsj.com/*",
+      "*://*.cdn.optimizely.com/*",
+      "*://*.ffx.io/*"
+    ]
+  },
   ["blocking", "requestHeaders"]
 );

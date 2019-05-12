@@ -67,6 +67,7 @@ WSJ does not like the User Agent being set to that of the Googlebot. For now thi
 
 This extansion has been tested against the following websites:
 
+* hbr.org
 * www.news.com.au
 * www.newyorker.com
 * www.nytimes.com.au
@@ -88,7 +89,7 @@ That's a good question! My thoughts are constantly evolving on this issue. At th
 
 * Offer a reward if a users allows one (and only one!) of their sessions to be tracked. This is a standard marketing practice in the offline world.
 * When the user first visits the website send them to a page that allows them to choose what the website tracks. This advice would be valid for a session.
-* If a user logs in (e.g. a payed subscriber) then they are fair game to tracking as the conditions of tracking would have been spelled out in a Terms Of Service agreement.
+* If a user logs in (e.g. a paid subscriber) then they are fair game to tracking as the conditions of tracking would have been spelled out in a Terms Of Service agreement.
 
 ## License
 
